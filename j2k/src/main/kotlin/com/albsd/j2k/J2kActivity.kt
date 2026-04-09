@@ -74,8 +74,7 @@ class J2kActivity : ProjectActivity {
 
         LocalFileSystem.getInstance().refresh(true)
 
-        val extension = J2kConverterExtension.EP_NAME.extensionList
-                .first { it.kind.name == "K1_NEW" }
+        val extension = J2kConverterExtension.EP_NAME.extensionList.first()
 
         val converter = extension.createJavaToKotlinConverter(
             project = project,
