@@ -55,8 +55,12 @@ jobs:
         if: always()
         with:
           name: j2k-logs
-          path: j2k-runner/logs/
+          path: j2k/logs/
           retention-days: 30
+
+      - name: (Failure) Show J2K logs
+        if: failure()
+        run: cat j2k/logs/j2k-output.log
 
       - name: List converted Kotlin files
         if: always()
