@@ -1,4 +1,4 @@
-package org.example.j2krunner
+package com.albsd.j2k
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.progress.EmptyProgressIndicator
@@ -10,7 +10,7 @@ import com.intellij.psi.PsiManager
 import org.jetbrains.kotlin.j2k.ConverterSettings
 import org.jetbrains.kotlin.j2k.J2kConverterExtension
 import java.io.File
-
+// https://github.com/JetBrains/intellij-community/tree/master/plugins/kotlin/j2k/shared/src/org/jetbrains/kotlin/j2k
 
  //   ./gradlew runIde -PsourceDir=<path> -PoutputDir=<path>
 class J2kActivity : ProjectActivity {
@@ -72,9 +72,12 @@ class J2kActivity : ProjectActivity {
 
         val psiManager = PsiManager.getInstance(project)
 
-        val extension = J2kConverterExtension.extension(useNewJ2k = false)
+        val extension = J2kConverterExtension.extension(
+            J2kConverterExtension.Kind.K1_OLD
+        )
+
         val converter = extension.createJavaToKotlinConverter(
-            project  = project,
+            project = project,
             targetModule = null,
             settings = ConverterSettings.defaultSettings
         )
@@ -102,10 +105,11 @@ class J2kActivity : ProjectActivity {
 
             val kotlinSource = ApplicationManager.getApplication().runReadAction<String?> {
                 try {
+                    val postProcessor = extension.createPostProcessor(formatCode = false)
+
                     val result = converter.filesToKotlin(
-                        files             = listOf(psiFile),
-                        postProcessor     = { code -> code}
-                        progressIndicator = EmptyProgressIndicator()
+                        files = listOf(psiFile),
+                        postProcessor = postProcessor
                     )
                     result.results.firstOrNull()
                 } catch (e: Exception) {
