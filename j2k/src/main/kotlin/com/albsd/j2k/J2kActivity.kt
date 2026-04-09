@@ -9,7 +9,6 @@ import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiManager
 import org.jetbrains.kotlin.j2k.ConverterSettings
 import org.jetbrains.kotlin.j2k.J2kConverterExtension
-import org.jetbrains.kotlin.j2k.J2kConverterExtension.Kind.K1_NEW
 import java.io.File
 
 class J2kActivity : ProjectActivity {
@@ -75,7 +74,7 @@ class J2kActivity : ProjectActivity {
 
         LocalFileSystem.getInstance().refresh(true)
 
-        val extension = J2kConverterExtension.extension(K1_NEW)
+        val extension = J2kConverterExtension.extension(J2kConverterExtension.Kind.K1_NEW)
 
         val converter = extension.createJavaToKotlinConverter(
             project = project,
@@ -104,6 +103,7 @@ class J2kActivity : ProjectActivity {
                 continue
             }
 
+            // plugins/kotlin/j2k/k1.new.post-processing/src/org/jetbrains/kotlin/idea/j2k/post/processing/NewJ2kConverterExtension.kt
             val kotlinSource = try {
                 converter.elementsToKotlin(listOf(psiFile))
                     .results
