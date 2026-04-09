@@ -104,6 +104,7 @@ class J2kActivity : ProjectActivity {
                 try {
                     val result = converter.filesToKotlin(
                         files             = listOf(psiFile),
+                        postProcessor     = { code -> code}
                         progressIndicator = EmptyProgressIndicator()
                     )
                     result.results.firstOrNull()
