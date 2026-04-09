@@ -1,8 +1,9 @@
 import org.jetbrains.intellij.platform.gradle.tasks.RunIdeTask
+import org.gradle.api.tasks.Input
 
 plugins {
     kotlin("jvm") version "1.9.25"
-    id("org.jetbrains.intellij.platform") version "2.3.0"
+    id("org.jetbrains.intellij.platform") version "2.14.0"
 }
 
 group = "com.albsd"
@@ -10,16 +11,12 @@ version = "1.0.0"
 
 repositories {
     mavenCentral()
-    intellijPlatform {
-        defaultRepositories()
-    }
 }
 
 dependencies {
     intellijPlatform {
         intellijIdeaCommunity("2024.1.7")
         bundledPlugin("org.jetbrains.kotlin")
-        instrumentationTools()
     }
 }
 
@@ -29,10 +26,10 @@ intellijPlatform {
         name = "J2K"
         version = "0.0.1"
         description = """
-        Java-To-Kotlin converter for CI pipelines.
-        Reads Java source from j2k.sourceDir
-        and writes Kotlin output to j2k.outputDir.
-        """
+            Java-To-Kotlin converter for CI pipelines.
+            Reads Java source from j2k.sourceDir
+            and writes Kotlin output to j2k.outputDir.
+        """.trimIndent()
         ideaVersion {
             sinceBuild = "241"
             untilBuild = provider { null }
@@ -42,11 +39,11 @@ intellijPlatform {
 
 tasks.named<RunIdeTask>("runIde") {
     val sourceDirProp = providers.gradleProperty("sourceDir")
-        .orElse(rootProject.projectDir.parent + "/src/main/java")
+        .orElse(rootProject.projectDir.parentFile.resolve("src/main/java").absolutePath)
     val outputDirProp = providers.gradleProperty("outputDir")
-        .orElse(rootProject.projectDir.parent + "/converted-kotlin")
+        .orElse(rootProject.projectDir.parentFile.resolve("converted-kotlin").absolutePath)
     val projectDirProp = providers.gradleProperty("projectDir")
-        .orElse(rootProject.projectDir.parent)
+        .orElse(rootProject.projectDir.parentFile.absolutePath)
 
     jvmArgumentProviders.add(CommandLineArgumentProvider {
         listOf(
