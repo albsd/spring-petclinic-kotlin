@@ -9,7 +9,6 @@ import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiManager
 import org.jetbrains.kotlin.j2k.ConverterSettings
 import org.jetbrains.kotlin.j2k.J2kConverterExtension
-import org.jetbrains.kotlin.j2k.J2kPostProcessor
 import java.io.File
 
 
@@ -105,7 +104,6 @@ class J2kActivity : ProjectActivity {
                 try {
                     val result = converter.filesToKotlin(
                         files             = listOf(psiFile),
-                        postProcessor     = J2kPostProcessor(formatCode = false),
                         progressIndicator = EmptyProgressIndicator()
                     )
                     result.results.firstOrNull()
