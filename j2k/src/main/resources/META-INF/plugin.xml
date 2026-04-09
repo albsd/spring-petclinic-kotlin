@@ -1,12 +1,13 @@
 <idea-plugin>
     <id>com.albsd.j2k</id>
-    <name>J2K </name>
+    <name>J2K</name>
     <version>1.0.0</version>
     <vendor>albsd</vendor>
-    <description>
-        Java-to-Kotlin converter for CI pipelines.
-		Reads Java source from j2k.sourceDir
-		and writes Kotlin output to j2k.outputDir.
+    <description><![CDATA[
+	Java-to-Kotlin converter for CI pipelines.
+	Reads Java source from j2k.sourceDir
+	and writes Kotlin output to j2k.outputDir.
+	]]>
     </description>
 
     <depends>com.intellij.modules.platform</depends>
