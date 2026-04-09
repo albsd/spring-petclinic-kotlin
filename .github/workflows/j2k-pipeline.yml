@@ -1,0 +1,75 @@
+name: "Java to Kotlin Conversion Pipeline"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  OUTPUT_DIR: "converted-kotlin"
+
+jobs:
+  j2k-convert:
+    name: "Convert Java to Kotlin"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
+
+      - name: Start virtual display
+        run: |
+          sudo apt-get install -y xvfb > /dev/null
+          Xvfb :99 -screen 0 1280x800x24 &
+          echo "DISPLAY=:99" >> $GITHUB_ENV
+
+
+      - name: Run J2K conversion
+        working-directory: j2k
+        run: |
+          mkdir -p logs
+          gradle runIde \
+            -PsourceDir="${GITHUB_WORKSPACE}/src/main/java" \
+            -PoutputDir="${GITHUB_WORKSPACE}/${OUTPUT_DIR}" \
+            -PprojectDir="${GITHUB_WORKSPACE}" \
+            --no-daemon \
+            --stacktrace \
+            > logs/j2k-output.log 2>&1
+        timeout-minutes: 20
+
+      - name: Upload J2K logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: j2k-logs
+          path: j2k-runner/logs/
+          retention-days: 30
+
+      - name: List converted Kotlin files
+        if: always()
+        run: |
+          echo "=== Converted Kotlin files ==="
+          find "${OUTPUT_DIR}" -name "*.kt" 2>/dev/null | sort || echo "(none found)"
+          echo ""
+          echo "Total: $(find ${OUTPUT_DIR} -name '*.kt' 2>/dev/null | wc -l) file(s)"
+
+      - name: Upload converted Kotlin sources
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: converted-kotlin-sources
+          retention-days: 30
+          path: ${{ env.OUTPUT_DIR }}/
