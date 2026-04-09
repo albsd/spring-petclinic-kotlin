@@ -28,7 +28,11 @@ intellijPlatform {
         id = "com.albsd.j2k"
         name = "J2K"
         version = "0.0.1"
-        description = "Java-To-Kotlin converter using IntelliJ J2K
+        description = """
+        Java-To-Kotlin converter for CI pipelines.
+        Reads Java source from j2k.sourceDir
+        and writes Kotlin output to j2k.outputDir.
+        """
         ideaVersion {
             sinceBuild = "241"
             untilBuild = provider { null }
