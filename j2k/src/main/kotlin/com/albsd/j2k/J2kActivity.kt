@@ -1,7 +1,7 @@
 package com.albsd.j2k
 
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.progress.EmptyProgressIndicator
+import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.ProjectActivity
 import com.intellij.openapi.vfs.LocalFileSystem
@@ -9,10 +9,9 @@ import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiManager
 import org.jetbrains.kotlin.j2k.ConverterSettings
 import org.jetbrains.kotlin.j2k.J2kConverterExtension
+import org.jetbrains.kotlin.j2k.J2kConverterExtension.Kind.K1_NEW
 import java.io.File
-// https://github.com/JetBrains/intellij-community/tree/master/plugins/kotlin/j2k/shared/src/org/jetbrains/kotlin/j2k
 
- //   ./gradlew runIde -PsourceDir=<path> -PoutputDir=<path>
 class J2kActivity : ProjectActivity {
 
     companion object {
@@ -57,24 +56,26 @@ class J2kActivity : ProjectActivity {
         }
     }
 
-    private data class Stats(var converted: Int = 0, var skipped: Int = 0, var failed: Int = 0)
+    private data class Stats(
+        var converted: Int = 0,
+        var skipped: Int = 0,
+        var failed: Int = 0
+    )
 
     private fun convert(project: Project, sourceDir: File, outputDir: File): Stats {
         outputDir.mkdirs()
 
         val javaFiles = sourceDir.walkTopDown()
-            .filter {it.isFile && it.extension == "java"}
+            .filter { it.isFile && it.extension == "java" }
             .toList()
 
         println("[j2k] Found ${javaFiles.size} Java file(s) under ${sourceDir.absolutePath}")
 
-        LocalFileSystem.getInstance().refreshAndFindFileByPath(sourceDir.absolutePath)
-
         val psiManager = PsiManager.getInstance(project)
 
-        val extension = J2kConverterExtension.extension(
-            J2kConverterExtension.Kind.K1_OLD
-        )
+        LocalFileSystem.getInstance().refresh(true)
+
+        val extension = J2kConverterExtension.extension(K1_NEW)
 
         val converter = extension.createJavaToKotlinConverter(
             project = project,
@@ -103,19 +104,14 @@ class J2kActivity : ProjectActivity {
                 continue
             }
 
-            val kotlinSource = ApplicationManager.getApplication().runReadAction<String?> {
-                try {
-                    val postProcessor = extension.createPostProcessor(formatCode = false)
-
-                    val result = converter.filesToKotlin(
-                        files = listOf(psiFile),
-                        postProcessor = postProcessor
-                    )
-                    result.results.firstOrNull()
-                } catch (e: Exception) {
-                    System.err.println("[j2k] ERROR converting ${javaFile.name}: ${e.message}")
-                    null
-                }
+            val kotlinSource = try {
+                converter.elementsToKotlin(listOf(psiFile))
+                    .results
+                    .firstOrNull()
+                    ?.text
+            } catch (e: Exception) {
+                System.err.println("[j2k] ERROR converting ${javaFile.name}: ${e.message}")
+                null
             }
 
             if (kotlinSource == null) {
@@ -125,13 +121,12 @@ class J2kActivity : ProjectActivity {
 
             val outFile = File(outputDir, "${javaFile.nameWithoutExtension}.kt")
             outFile.writeText(kotlinSource)
-            println("[j2k] OK  ${javaFile.name}  →  ${outFile.name}")
+            println("[j2k] OK  ${javaFile.name} → ${outFile.name}")
             stats.converted++
         }
 
         return stats
     }
-
 
     private fun exit(code: Int) {
         ApplicationManager.getApplication().exit(false, true, code != 0)
