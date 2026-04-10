@@ -24,7 +24,10 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
+.idea/*
+!.idea/misc.xml
+!.idea/modules.xml
+!.idea/spring-petclinic-kotlin.iml
 *.iws
 *.iml
 *.ipr
