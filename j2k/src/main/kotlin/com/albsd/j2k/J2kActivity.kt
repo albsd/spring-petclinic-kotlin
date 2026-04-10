@@ -19,6 +19,7 @@ class J2kActivity : ProjectActivity {
     }
 
     override suspend fun execute(project: Project) {
+        println("[j2k] Starting plugin..")
         val sourceDirPath = System.getProperty(SOURCE_DIR_PROP)
         val outputDirPath = System.getProperty(OUTPUT_DIR_PROP) ?: "converted-kotlin"
 
@@ -37,8 +38,8 @@ class J2kActivity : ProjectActivity {
             return
         }
 
-        println("[j2k] Source : $sourceDirPath")
-        println("[j2k] Output : $outputDirPath")
+        println("[j2k] Source: $sourceDirPath")
+        println("[j2k] Output: $outputDirPath")
 
         try {
             val stats = convert(project, sourceDir, outputDir)

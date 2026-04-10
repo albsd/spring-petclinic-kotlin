@@ -14,6 +14,6 @@
     <depends>org.jetbrains.kotlin</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <projectActivity implementation="com.albsd.j2k.J2kActivity"/>
+        <postStartupActivity implementation="com.albsd.j2k.J2kActivity"/>
     </extensions>
 </idea-plugin>
