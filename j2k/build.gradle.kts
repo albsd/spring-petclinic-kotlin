@@ -20,6 +20,8 @@ dependencies {
     intellijPlatform {
         intellijIdeaCommunity("2024.1.7")
         bundledPlugin("org.jetbrains.kotlin")
+//        bundledPlugin("org.jetbrains.plugins.gradle")
+        bundledPlugin("com.intellij.java")
     }
 }
 
@@ -55,7 +57,6 @@ tasks.named<RunIdeTask>("runIde") {
             "-Djava.awt.headless=true",
             "-Didea.is.internal=true",
             "-Didea.auto.reload.plugins=false",
-            "-Didea.suppressed.plugins.id=com.intellij.gradle"
         )
     })
 
