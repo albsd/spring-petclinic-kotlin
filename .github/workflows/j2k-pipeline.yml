@@ -57,6 +57,7 @@ jobs:
           name: j2k-logs
           path: |
             j2k/logs/
+            j2k/.intellijPlatform/sandbox/j2k/IC-2024.1.7/log/idea.log
             j2k/build/idea-sandbox/system/log/idea.log
           retention-days: 30
 

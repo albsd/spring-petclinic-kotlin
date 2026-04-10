@@ -2,7 +2,7 @@ import org.jetbrains.intellij.platform.gradle.tasks.RunIdeTask
 import org.gradle.api.tasks.Input
 
 plugins {
-    kotlin("jvm") version "1.9.25"
+    kotlin("jvm") version "2.1.20"
     id("org.jetbrains.intellij.platform") version "2.14.0"
 }
 
@@ -54,9 +54,12 @@ tasks.named<RunIdeTask>("runIde") {
         listOf(
             "-Dj2k.sourceDir=${sourceDirProp.get()}",
             "-Dj2k.outputDir=${outputDirProp.get()}",
-            "-Djava.awt.headless=true",
+//            "-Djava.awt.headless=true",
             "-Didea.is.internal=true",
             "-Didea.auto.reload.plugins=false",
+            "-Didea.agreement.accepted=true",
+            "-Didea.trust.all.projects=true",
+            "-Didea.initially.ask.config=never",
         )
     })
 
