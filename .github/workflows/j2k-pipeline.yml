@@ -50,6 +50,7 @@ jobs:
         working-directory: j2k
         run: |
           mkdir -p logs
+          chmod +x gradlew
           ./gradlew runIde \
             -PsourceDir="${GITHUB_WORKSPACE}/src/main/java" \
             -PoutputDir="${GITHUB_WORKSPACE}/${OUTPUT_DIR}" \
