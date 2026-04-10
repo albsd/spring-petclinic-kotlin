@@ -55,12 +55,17 @@ jobs:
         if: always()
         with:
           name: j2k-logs
-          path: j2k/logs/
+          path: |
+            j2k/logs/
+            j2k/build/idea-sandbox/system/log/idea.log
           retention-days: 30
 
       - name: (Failure) Show J2K logs
         if: failure()
-        run: cat j2k/logs/j2k-output.log
+        run: |
+          cat j2k/logs/j2k-output.log
+          echo "=== idea.log ==="
+          cat j2k/build/idea-sandbox/system/log/idea.log 2>/dev/null || echo "(idea.log not found)"
 
       - name: List converted Kotlin files
         if: always()
