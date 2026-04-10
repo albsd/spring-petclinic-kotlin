@@ -49,6 +49,13 @@ tasks.named<RunIdeTask>("runIde") {
         .orElse(rootProject.projectDir.parentFile.resolve("converted-kotlin").absolutePath)
     val projectDirProp = providers.gradleProperty("projectDir")
         .orElse(rootProject.projectDir.parentFile.absolutePath)
+    doFirst {
+        println("---------")
+        println("projectDirProp = ${projectDirProp.get()}")
+        println("sourceDirProp  = ${sourceDirProp.get()}")
+        println("outputDirProp  = ${outputDirProp.get()}")
+        println("---------")
+    }
 
     jvmArgumentProviders.add(CommandLineArgumentProvider {
         listOf(
@@ -63,5 +70,5 @@ tasks.named<RunIdeTask>("runIde") {
         )
     })
 
-    args(projectDirProp.get())
+    args("j2k-run", projectDirProp.get())
 }
