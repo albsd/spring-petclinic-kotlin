@@ -66,7 +66,8 @@ jobs:
         run: |
           cat j2k/logs/j2k-output.log
           echo "=== idea.log ==="
-          cat j2k/build/idea-sandbox/system/log/idea.log 2>/dev/null || echo "(idea.log not found)"
+          cat j2k/build/idea-sandbox/system/log/idea.log 2>/dev/null || echo "(idea.log 1 not found)"
+          cat j2k/.intellijPlatform/sandbox/j2k/IC-2024.1.7/log/idea.log || echo "(idea.log 2 not found)"
 
       - name: List converted Kotlin files
         if: always()
