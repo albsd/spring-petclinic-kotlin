@@ -50,11 +50,11 @@ class J2kActivity : ProjectActivity {
 
         try {
             val stats = convert(project, sourceDir, outputDir)
-            println("[j2k] ─────────────────────────────────────")
+            println("[j2k] -------------------------------------")
             println("[j2k] Converted : ${stats.converted}")
             println("[j2k] Skipped   : ${stats.skipped}")
             println("[j2k] Failed    : ${stats.failed}")
-            println("[j2k] ─────────────────────────────────────")
+            println("[j2k] -------------------------------------")
             exit(0)
         } catch (e: Exception) {
             System.err.println("[j2k] FATAL: ${e.message}")
@@ -139,7 +139,7 @@ class J2kActivity : ProjectActivity {
             val outFile = File(outputDir, relativePath.path.removeSuffix(".java") + ".kt")
             outFile.parentFile.mkdirs()
             outFile.writeText(kotlinSource)
-            println("[j2k] OK  ${javaFile.name} → ${outFile.name}")
+            println("[j2k] OK  ${javaFile.name} -> ${outFile.name}")
             stats.converted++
         }
 
