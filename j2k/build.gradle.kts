@@ -68,6 +68,8 @@ tasks.named<RunIdeTask>("runIde") {
             "-Didea.agreement.accepted=true",
             "-Didea.trust.all.projects=true",
             "-Didea.initially.ask.config=never",
+            "-Didea.send.usage.stat=false",
+            "-Dide.show.tips.on.startup.default.value=false",
         )
     })
 
