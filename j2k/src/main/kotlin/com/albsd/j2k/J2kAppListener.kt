@@ -52,7 +52,10 @@ class J2kAppListener : AppLifecycleListener {
 
         ApplicationManager.getApplication().executeOnPooledThread {
             val project = ProjectManagerEx.getInstanceEx()
-                .openProject(projectPath, OpenProjectTask { runConfigurators = false })
+                .openProject(projectPath, OpenProjectTask {
+                    runConfigurators = false
+                    forceOpenInNewFrame = true
+                })
 
             if (project == null) {
                 System.err.println("[j2k] ERROR: openProject() returned null for $projectDir")
