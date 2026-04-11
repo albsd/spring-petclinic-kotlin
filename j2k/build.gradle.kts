@@ -71,5 +71,4 @@ tasks.named<RunIdeTask>("runIde") {
         )
     })
 
-    args(projectDirProp.get())
 }
