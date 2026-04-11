@@ -13,7 +13,11 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>org.jetbrains.kotlin</depends>
 
+    <applicationListeners>
+        <listener class="com.albsd.j2k.J2kAppListener" topic="com.intellij.ide.AppLifecycleListener"/>
+    </applicationListeners>
+
     <extensions defaultExtensionNs="com.intellij">
-        <appStarter implementation="com.albsd.j2k.J2kStarter"/>
+        <postStartupActivity implementation="com.albsd.j2k.J2kActivity"/>
     </extensions>
 </idea-plugin>

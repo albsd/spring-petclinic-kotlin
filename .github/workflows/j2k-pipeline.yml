@@ -47,7 +47,7 @@ jobs:
             -PprojectDir="${GITHUB_WORKSPACE}" \
             --no-daemon \
             --stacktrace \
-            > logs/j2k-output.log 2>&1
+            2>&1 | tee logs/j2k-output.log
         timeout-minutes: 20
 
       - name: Upload J2K logs

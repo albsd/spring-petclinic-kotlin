@@ -61,6 +61,7 @@ tasks.named<RunIdeTask>("runIde") {
         listOf(
             "-Dj2k.sourceDir=${sourceDirProp.get()}",
             "-Dj2k.outputDir=${outputDirProp.get()}",
+            "-Dj2k.projectDir=${projectDirProp.get()}",
 //            "-Djava.awt.headless=true",
             "-Didea.is.internal=true",
             "-Didea.auto.reload.plugins=false",
