@@ -9,6 +9,7 @@ import java.nio.file.Path
 class J2kAppListener : AppLifecycleListener {
 
     override fun appStarted() {
+        println("[j2k] appStarted() fired, j2k.projectDir=${System.getProperty("j2k.projectDir")}")
         val projectDir = System.getProperty("j2k.projectDir") ?: return
         val path = Path.of(projectDir)
 

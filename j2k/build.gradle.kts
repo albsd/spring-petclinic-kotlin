@@ -71,5 +71,5 @@ tasks.named<RunIdeTask>("runIde") {
         )
     })
 
-    args("j2k-run", projectDirProp.get())
+    args(projectDirProp.get())
 }
