@@ -1,6 +1,7 @@
 package com.albsd.j2k
 
 import com.intellij.ide.AppLifecycleListener
+import com.intellij.ide.GeneralSettings
 import com.intellij.ide.impl.OpenProjectTask
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.DumbService
@@ -49,12 +50,12 @@ class J2kAppListener : AppLifecycleListener {
         }
 
         System.err.println("[j2k] Opening project: $projectDir")
+        GeneralSettings.getInstance().confirmOpenNewProject = GeneralSettings.OPEN_PROJECT_SAME_WINDOW
 
         ApplicationManager.getApplication().executeOnPooledThread {
             val project = ProjectManagerEx.getInstanceEx()
                 .openProject(projectPath, OpenProjectTask {
                     runConfigurators = false
-                    forceOpenInNewFrame = true
                 })
 
             if (project == null) {

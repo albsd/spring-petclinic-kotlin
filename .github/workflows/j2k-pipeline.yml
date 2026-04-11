@@ -48,7 +48,7 @@ jobs:
             --no-daemon \
             --stacktrace \
             2>&1 | tee logs/j2k-output.log
-        timeout-minutes: 20
+        timeout-minutes: 5
 
       - name: Upload J2K logs
         uses: actions/upload-artifact@v4
