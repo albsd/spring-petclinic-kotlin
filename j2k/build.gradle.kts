@@ -70,6 +70,7 @@ tasks.named<RunIdeTask>("runIde") {
             "-Didea.initially.ask.config=never",
             "-Didea.send.usage.stat=false",
             "-Dide.show.tips.on.startup.default.value=false",
+            "-Djb.consents.confirmation.enabled=false",
         )
     })
 

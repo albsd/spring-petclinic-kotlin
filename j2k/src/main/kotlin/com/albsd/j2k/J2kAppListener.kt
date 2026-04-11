@@ -16,8 +16,8 @@ import java.nio.file.Path
 
 class J2kAppListener : AppLifecycleListener {
 
-    override fun appStarted() {
-        System.err.println("[j2k] appStarted() fired")
+    override fun appFrameCreated(commandLineArgs: List<String>) {
+        System.err.println("[j2k] appFrameCreated() fired")
         System.err.println("[j2k] j2k.projectDir=${System.getProperty("j2k.projectDir")}")
         System.err.println("[j2k] j2k.sourceDir=${System.getProperty("j2k.sourceDir")}")
         System.err.println("[j2k] j2k.outputDir=${System.getProperty("j2k.outputDir")}")
